@@ -1,0 +1,9 @@
+{
+          "type": "record",
+          "name": "GlucoseReading",
+          "fields": [
+                { "name": "device_id", "type": "string", "doc": "Unique identifier of the glucose monitoring device." },
+                { "name": "patient_id", "type": "string", "doc": "Unique identifier for the patient (pseudonymized or hashed)." },
+                { "name": "glucose_mg_dL", "type": "int", "doc": "Glucose value in mg/dL." }
+          ]
+}

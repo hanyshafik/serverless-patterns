@@ -33,8 +33,10 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
 
         try {
             // Get environment variables
-            String mskClusterArn = System.getenv("MSK_CLUSTER_ARN");
-            String kafkaTopic = System.getenv("MSK_TOPIC");
+            //String mskClusterArn = System.getenv("MSK_CLUSTER_ARN");
+            //String kafkaTopic = System.getenv("MSK_TOPIC");
+	    String bootstrapServers = System.getenv("bootstrapServers");
+            String kafkaTopic = System.getenv("KAFKA_TOPIC");
             String schemaName = System.getenv("CONTACT_SCHEMA_NAME");
             String region = System.getenv("AWS_REGION");
             String registryName = System.getenv("REGISTRY_NAME") != null ? 
@@ -48,18 +50,18 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             logger.log("Generating contacts with zip codes starting with 1000 (50% chance) or 2000 (50% chance)");
             
             // Create a Contact object from the input event or use default values
-            Contact contact = createContactFromEvent(event);
+            GlucoseReading glucoseReading = createContactFromEvent(event);
             logger.log("Created contact: " + gson.toJson(contact));
 
             // Get bootstrap brokers
-            String bootstrapBrokers = KafkaProducerHelper.getBootstrapBrokers(mskClusterArn);
-            logger.log("Using bootstrap brokers: " + bootstrapBrokers);
+            //String bootstrapBrokers = KafkaProducerHelper.getBootstrapBrokers(mskClusterArn);
+            //logger.log("Using bootstrap brokers: " + bootstrapBrokers);
             
             // Log the topic name for debugging
             logger.log("Target Kafka topic: '" + kafkaTopic + "'");
             
             // Create Kafka producer with AWS Glue Schema Registry serializer
-            try (Producer<String, Contact> producer = KafkaProducerHelper.createProducer(
+            try (Producer<String, GlucoseReading> producer = KafkaProducerHelper.createProducer(
                     bootstrapBrokers, region, registryName, schemaName)) {
                 
                 // Log producer configuration
@@ -75,17 +77,17 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
                     String messageKey = UUID.randomUUID().toString();
                     
                     // Create a new contact for each message to ensure variety
-                    Contact messageContact = createContactFromEvent(event);
+                    GlucoseReading messageGlucoseReading = createGlucoseReadingFromEvent(event);
                     
-                    // Print the contact details before sending (Contact is now a SpecificRecord)
-                    logger.log("Sending contact #" + (i+1) + ": " + gson.toJson(messageContact));
-                    logger.log("AVRO record #" + (i+1) + ": " + messageContact.toString());
+                    // Print the contact details before sending (GlucoseReading is now a SpecificRecord)
+                    logger.log("Sending contact #" + (i+1) + ": " + gson.toJson(messageGlucoseReading));
+                    logger.log("AVRO record #" + (i+1) + ": " + messageGlucoseReading.toString());
                     
                     // Log the zip code prefix for distribution tracking
-                    String zipCode = messageContact.getZip();
+                    /*String zipCode = messageGlucoseReading.getZip();
                     if (zipCode != null && zipCode.length() >= 4) {
                         String prefix = zipCode.substring(0, 4);
-                        logger.log("Contact #" + (i+1) + " zip code prefix: " + prefix);
+                        logger.log("GlucoseReading#" + (i+1) + " zip code prefix: " + prefix);
                         
                         // Count zip codes by prefix
                         if ("1000".equals(prefix)) {
@@ -93,22 +95,23 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
                         } else if ("2000".equals(prefix)) {
                             zip2000Count++;
                         }
-                    }
+                    }*/
                     
-                    // Send the message (Contact is now a SpecificRecord)
-                    KafkaProducerHelper.sendAvroMessage(producer, kafkaTopic, messageKey, messageContact);
+                    // Send the message (GlucoseReading is now a SpecificRecord)
+                    KafkaProducerHelper.sendAvroMessage(producer, kafkaTopic, messageKey, messageGlucoseReading);
                     logger.log("Successfully sent AVRO message #" + (i+1) + " to topic: " + kafkaTopic);
                 }
                 
                 // Log summary of zip code distribution
-                logger.log("ZIP CODE DISTRIBUTION SUMMARY:");
-                logger.log("Messages with zip code starting with 1000: " + zip1000Count);
-                logger.log("Messages with zip code starting with 2000: " + zip2000Count);
-                logger.log("Other zip code formats: " + (messageCount - zip1000Count - zip2000Count));
+                //logger.log("ZIP CODE DISTRIBUTION SUMMARY:");
+                //logger.log("Messages with zip code starting with 1000: " + zip1000Count);
+                //logger.log("Messages with zip code starting with 2000: " + zip2000Count);
+                //logger.log("Other zip code formats: " + (messageCount - zip1000Count - zip2000Count));
             }
 
-            return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic + 
-                   " (Zip codes: " + zip1000Count + " with prefix 1000, " + zip2000Count + " with prefix 2000)";
+            /*return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic + 
+                   " (Zip codes: " + zip1000Count + " with prefix 1000, " + zip2000Count + " with prefix 2000)";*/
+	    return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic ); 
         } catch (Exception e) {
             logger.log("Error sending AVRO message: " + e.getMessage());
             e.printStackTrace();
@@ -122,34 +125,15 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
      * @param event Input event map
      * @return Contact object
      */
-    private Contact createContactFromEvent(Map<String, Object> event) {
-        Contact contact = new Contact();
+    private GlucoseReading createGlucoseReadingFromEvent(Map<String, Object> event) {
+        GlucoseReading glucoseReading = new GlucoseReading();
         
         // Set fields from event if available, otherwise use default values
-        contact.setFirstname(getStringValue(event, "firstname", "FirstName-" + randomSuffix()));
-        contact.setLastname(getStringValue(event, "lastname", "LastName-" + randomSuffix()));
-        contact.setCompany(getStringValue(event, "company", "Company-" + randomSuffix()));
-        contact.setStreet(getStringValue(event, "street", "123 Main St"));
-        contact.setCity(getStringValue(event, "city", "AnyCity"));
-        contact.setCounty(getStringValue(event, "county", "AnyCounty"));
-        contact.setState(getStringValue(event, "state", "AnyState"));
+        glucoseReading.setFirstname(getStringValue(event, "firstname", "FirstName-" + randomSuffix()));
+        glucoseReading.setLastname(getStringValue(event, "lastname", "LastName-" + randomSuffix()));
+        glucoseReading.setCompany(getStringValue(event, "company", "Company-" + randomSuffix()));
         
-        // Generate zip code starting with 1000 50% of the time and 2000 the other 50%
-        if (event.containsKey("zip") && event.get("zip") != null) {
-            // If zip is provided in the event, use it as is
-            contact.setZip(event.get("zip").toString());
-        } else {
-            // 50% chance for each prefix
-            String prefix = Math.random() < 0.5 ? "1000" : "2000";
-            contact.setZip(prefix + randomDigit());
-        }
-        
-        contact.setHomePhone(getStringValue(event, "homePhone", "555-123-" + randomDigits(4)));
-        contact.setCellPhone(getStringValue(event, "cellPhone", "555-456-" + randomDigits(4)));
-        contact.setEmail(getStringValue(event, "email", "user-" + randomSuffix() + "@example.com"));
-        contact.setWebsite(getStringValue(event, "website", "https://www." + randomSuffix() + ".com"));
-        
-        return contact;
+        return glucoseReading;
     }
 
     /**
