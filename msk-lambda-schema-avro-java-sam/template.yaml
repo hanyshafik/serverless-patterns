@@ -117,7 +117,7 @@ Resources:
           - kafka-cluster:DescribeCluster
           - kafka-cluster:WriteData
           - kafka-cluster:DescribeTopic
-          Resource: 
+          Resource: '*'
           
         - Sid: KafkaPermissionsPolicy
           Effect: Allow
