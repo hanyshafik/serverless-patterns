@@ -1,6 +1,7 @@
 {
           "type": "record",
           "name": "GlucoseReading",
+          "namespace": "com.amazonaws.services.lambda.samples.events.kafka",
           "fields": [
                 { "name": "device_id", "type": "string", "doc": "Unique identifier of the glucose monitoring device." },
                 { "name": "patient_id", "type": "string", "doc": "Unique identifier for the patient (pseudonymized or hashed)." },

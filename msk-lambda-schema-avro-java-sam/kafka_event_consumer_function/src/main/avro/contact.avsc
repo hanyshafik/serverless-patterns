@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "Contact",
-  "namespace": "com.amazonaws.services.lambda.samples.events.msk",
+  "namespace": "com.amazonaws.services.lambda.samples.events.kafka",
   "fields": [
     {"name": "firstname", "type": ["null", "string"], "default": null},
     {"name": "lastname", "type": ["null", "string"], "default": null},

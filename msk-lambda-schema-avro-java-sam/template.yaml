@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: kafka_event_consumer_function
-      Handler: com.amazonaws.services.lambda.samples.events.msk.AvroKafkaHandler::handleRequest
+      Handler: com.amazonaws.services.lambda.samples.events.kafka.AvroKafkaHandler::handleRequest
       Runtime: java25
       Architectures:
         - x86_64
@@ -91,11 +91,11 @@ Resources:
           Resource: !GetAtt ConsumerDLQ.Arn
       - VPCAccessPolicy: {}
 
-  LambdaMSKProducerJavaFunction:
+  LambdaKafkaProducerJavaFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: kafka_event_producer_function
-      Handler: com.amazonaws.services.lambda.samples.events.msk.AvroProducerHandler::handleRequest
+      Handler: com.amazonaws.services.lambda.samples.events.kafka.AvroProducerHandler::handleRequest
       Runtime: java25
       Timeout: 300
       Architectures:
@@ -118,8 +118,6 @@ Resources:
           - kafka-cluster:WriteData
           - kafka-cluster:DescribeTopic
           Resource: 
-          - !Join ['', ["arn:", "aws:", "kafka:", !Ref "AWS::Region", ":", !Ref "AWS::AccountId", ":", "cluster/", !Ref MSKClusterName, "/" , !Ref MSKClusterId]]
-          - !Join ['', ["arn:", "aws:", "kafka:", !Ref "AWS::Region", ":", !Ref "AWS::AccountId", ":", "topic/", !Ref MSKClusterName, "/" , !Ref MSKClusterId, "/*"]]
           
         - Sid: KafkaPermissionsPolicy
           Effect: Allow
@@ -179,10 +177,10 @@ Parameters:
 Outputs:
   MSKConsumerLambdaFunction:
     Description: "Topic Consumer Lambda Function ARN"
-    Value: !GetAtt LambdaMSKConsumerJavaFunction.Arn
-  MSKProducerLambdaFunction:
+    Value: !GetAtt LambdaKafkaConsumerJavaFunction.Arn
+  KafkaProducerLambdaFunction:
     Description: "AVRO Producer Lambda Function ARN"
-    Value: !GetAtt LambdaMSKProducerJavaFunction.Arn
+    Value: !GetAtt LambdaKafkaProducerJavaFunction.Arn
   ConsumerDLQUrl:
     Description: "URL of the Dead Letter Queue for the MSK Consumer"
     Value: !Ref ConsumerDLQ

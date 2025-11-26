@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.message.BinaryMessageEncoder;
@@ -15,7 +15,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
   private static final long serialVersionUID = -4035028153225992319L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Contact\",\"namespace\":\"com.amazonaws.services.lambda.samples.events.msk\",\"fields\":[{\"name\":\"firstname\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"lastname\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"company\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"street\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"county\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"state\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"zip\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"homePhone\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"cellPhone\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"email\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"website\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Contact\",\"namespace\":\"com.amazonaws.services.lambda.samples.events.kafka.\",\"fields\":[{\"name\":\"firstname\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"lastname\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"company\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"street\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"county\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"state\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"zip\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"homePhone\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"cellPhone\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"email\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null},{\"name\":\"website\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -376,8 +376,8 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
    * Creates a new Contact RecordBuilder.
    * @return A new Contact RecordBuilder
    */
-  public static com.amazonaws.services.lambda.samples.events.msk.Contact.Builder newBuilder() {
-    return new com.amazonaws.services.lambda.samples.events.msk.Contact.Builder();
+  public static com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder newBuilder() {
+    return new com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder();
   }
 
   /**
@@ -385,11 +385,11 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
    * @param other The existing builder to copy.
    * @return A new Contact RecordBuilder
    */
-  public static com.amazonaws.services.lambda.samples.events.msk.Contact.Builder newBuilder(com.amazonaws.services.lambda.samples.events.msk.Contact.Builder other) {
+  public static com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder newBuilder(com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder other) {
     if (other == null) {
-      return new com.amazonaws.services.lambda.samples.events.msk.Contact.Builder();
+      return new com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder();
     } else {
-      return new com.amazonaws.services.lambda.samples.events.msk.Contact.Builder(other);
+      return new com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder(other);
     }
   }
 
@@ -398,11 +398,11 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
    * @param other The existing instance to copy.
    * @return A new Contact RecordBuilder
    */
-  public static com.amazonaws.services.lambda.samples.events.msk.Contact.Builder newBuilder(com.amazonaws.services.lambda.samples.events.msk.Contact other) {
+  public static com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder newBuilder(com.amazonaws.services.lambda.samples.events.kafka.Contact other) {
     if (other == null) {
-      return new com.amazonaws.services.lambda.samples.events.msk.Contact.Builder();
+      return new com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder();
     } else {
-      return new com.amazonaws.services.lambda.samples.events.msk.Contact.Builder(other);
+      return new com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder(other);
     }
   }
 
@@ -435,7 +435,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.amazonaws.services.lambda.samples.events.msk.Contact.Builder other) {
+    private Builder(com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.firstname)) {
         this.firstname = data().deepCopy(fields()[0].schema(), other.firstname);
@@ -491,7 +491,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
      * Creates a Builder by copying an existing Contact instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.amazonaws.services.lambda.samples.events.msk.Contact other) {
+    private Builder(com.amazonaws.services.lambda.samples.events.kafka.Contact other) {
       super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.firstname)) {
         this.firstname = data().deepCopy(fields()[0].schema(), other.firstname);
@@ -557,7 +557,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'firstname'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setFirstname(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setFirstname(java.lang.String value) {
       validate(fields()[0], value);
       this.firstname = value;
       fieldSetFlags()[0] = true;
@@ -577,7 +577,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'firstname' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearFirstname() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearFirstname() {
       firstname = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -597,7 +597,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'lastname'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setLastname(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setLastname(java.lang.String value) {
       validate(fields()[1], value);
       this.lastname = value;
       fieldSetFlags()[1] = true;
@@ -617,7 +617,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'lastname' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearLastname() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearLastname() {
       lastname = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -637,7 +637,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'company'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setCompany(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setCompany(java.lang.String value) {
       validate(fields()[2], value);
       this.company = value;
       fieldSetFlags()[2] = true;
@@ -657,7 +657,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'company' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearCompany() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearCompany() {
       company = null;
       fieldSetFlags()[2] = false;
       return this;
@@ -677,7 +677,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'street'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setStreet(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setStreet(java.lang.String value) {
       validate(fields()[3], value);
       this.street = value;
       fieldSetFlags()[3] = true;
@@ -697,7 +697,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'street' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearStreet() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearStreet() {
       street = null;
       fieldSetFlags()[3] = false;
       return this;
@@ -717,7 +717,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'city'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setCity(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setCity(java.lang.String value) {
       validate(fields()[4], value);
       this.city = value;
       fieldSetFlags()[4] = true;
@@ -737,7 +737,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'city' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearCity() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearCity() {
       city = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -757,7 +757,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'county'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setCounty(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setCounty(java.lang.String value) {
       validate(fields()[5], value);
       this.county = value;
       fieldSetFlags()[5] = true;
@@ -777,7 +777,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'county' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearCounty() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearCounty() {
       county = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -797,7 +797,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'state'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setState(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setState(java.lang.String value) {
       validate(fields()[6], value);
       this.state = value;
       fieldSetFlags()[6] = true;
@@ -817,7 +817,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'state' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearState() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearState() {
       state = null;
       fieldSetFlags()[6] = false;
       return this;
@@ -837,7 +837,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'zip'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setZip(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setZip(java.lang.String value) {
       validate(fields()[7], value);
       this.zip = value;
       fieldSetFlags()[7] = true;
@@ -857,7 +857,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'zip' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearZip() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearZip() {
       zip = null;
       fieldSetFlags()[7] = false;
       return this;
@@ -877,7 +877,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'homePhone'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setHomePhone(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setHomePhone(java.lang.String value) {
       validate(fields()[8], value);
       this.homePhone = value;
       fieldSetFlags()[8] = true;
@@ -897,7 +897,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'homePhone' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearHomePhone() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearHomePhone() {
       homePhone = null;
       fieldSetFlags()[8] = false;
       return this;
@@ -917,7 +917,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'cellPhone'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setCellPhone(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setCellPhone(java.lang.String value) {
       validate(fields()[9], value);
       this.cellPhone = value;
       fieldSetFlags()[9] = true;
@@ -937,7 +937,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'cellPhone' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearCellPhone() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearCellPhone() {
       cellPhone = null;
       fieldSetFlags()[9] = false;
       return this;
@@ -957,7 +957,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'email'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setEmail(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setEmail(java.lang.String value) {
       validate(fields()[10], value);
       this.email = value;
       fieldSetFlags()[10] = true;
@@ -977,7 +977,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'email' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearEmail() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearEmail() {
       email = null;
       fieldSetFlags()[10] = false;
       return this;
@@ -997,7 +997,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * @param value The value of 'website'.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder setWebsite(java.lang.String value) {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder setWebsite(java.lang.String value) {
       validate(fields()[11], value);
       this.website = value;
       fieldSetFlags()[11] = true;
@@ -1017,7 +1017,7 @@ public class Contact extends org.apache.avro.specific.SpecificRecordBase {
       * Clears the value of the 'website' field.
       * @return This builder.
       */
-    public com.amazonaws.services.lambda.samples.events.msk.Contact.Builder clearWebsite() {
+    public com.amazonaws.services.lambda.samples.events.kafka.Contact.Builder clearWebsite() {
       website = null;
       fieldSetFlags()[11] = false;
       return this;

@@ -1,4 +1,4 @@
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;

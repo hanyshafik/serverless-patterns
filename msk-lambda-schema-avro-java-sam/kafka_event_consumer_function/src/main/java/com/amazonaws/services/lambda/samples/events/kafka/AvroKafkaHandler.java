@@ -1,4 +1,4 @@
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;

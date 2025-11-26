@@ -1,4 +1,4 @@
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;

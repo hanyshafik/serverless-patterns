@@ -3,6 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;

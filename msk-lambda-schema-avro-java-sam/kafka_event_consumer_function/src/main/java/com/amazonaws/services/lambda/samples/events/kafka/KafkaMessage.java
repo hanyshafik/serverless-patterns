@@ -1,4 +1,4 @@
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.amazonaws.services.lambda.samples.events.msk;
+package com.amazonaws.services.lambda.samples.events.kafka;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -12,6 +12,7 @@ import software.amazon.awssdk.services.glue.GlueClient;
 import software.amazon.awssdk.services.glue.model.*;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -35,15 +36,15 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             // Get environment variables
             //String mskClusterArn = System.getenv("MSK_CLUSTER_ARN");
             //String kafkaTopic = System.getenv("MSK_TOPIC");
-	    String bootstrapServers = System.getenv("bootstrapServers");
+	        String bootstrapBrokers = System.getenv("BOOTSTRAP_BRssOKERS");
             String kafkaTopic = System.getenv("KAFKA_TOPIC");
             String schemaName = System.getenv("SCHEMA_NAME");
             String region = System.getenv("AWS_REGION");
             String registryName = System.getenv("REGISTRY_NAME") != null ? 
                                  System.getenv("REGISTRY_NAME") : "default-registry";
 
-            if (bootstrapServers == null || kafkaTopic == null || schemaName == null) {
-                throw new RuntimeException("Required environment variables not set: BOOTSTRAP_SERVERS, KAFKA_TOPIC, SCHEMA_NAME");
+            if (bootstrapBrokers == null || kafkaTopic == null || schemaName == null) {
+                throw new RuntimeException("Required environment variables not set: BOOTSTRAP_BROKERS, KAFKA_TOPIC, SCHEMA_NAME");
             }
 
             // Log that we're generating glucose readings
@@ -53,9 +54,7 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             GlucoseReading glucoseReading = createGlucoseReadingFromEvent(event);
             logger.log("Created glucoseReading: " + gson.toJson(glucoseReading));
 
-            // Get bootstrap brokers
-            //String bootstrapBrokers = KafkaProducerHelper.getBootstrapBrokers(mskClusterArn);
-            //logger.log("Using bootstrap brokers: " + bootstrapBrokers);
+            
             
             // Log the topic name for debugging
             logger.log("Target Kafka topic: '" + kafkaTopic + "'");
@@ -131,7 +130,16 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
         // Set fields from event if available, otherwise use default values
         glucoseReading.setPatientId(getStringValue(event, "patientId", "PatientId-" + randomSuffix()));
         glucoseReading.setDeviceId(getStringValue(event, "deviceId", "DeviceId-" + randomSuffix()));
-        glucoseReading.setGlucoseMgDL(getStringValue(event, "glucoseMgDL", "GlucoseMgDL-" + randomDigits(3)));
+
+        int min = 70;
+        int max = 170;
+        // Create an instance of the Random class
+        Random random = new Random();
+        // Generate the random number
+        // The formula is: random.nextInt((max - min) + 1) + min;
+        int randomNumber = random.nextInt((max - min) + 1) + min;
+        glucoseReading.setGlucoseMgDL(randomNumber);
+
         
         return glucoseReading;
     }
