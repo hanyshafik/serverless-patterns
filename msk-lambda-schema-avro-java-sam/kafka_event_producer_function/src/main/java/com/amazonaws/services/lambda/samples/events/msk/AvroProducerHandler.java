@@ -111,7 +111,7 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
 
             /*return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic + 
                    " (Zip codes: " + zip1000Count + " with prefix 1000, " + zip2000Count + " with prefix 2000)";*/
-	    return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic ); 
+	    return "Successfully sent " + messageCount + " AVRO messages to Kafka topic: " + kafkaTopic; 
         } catch (Exception e) {
             logger.log("Error sending AVRO message: " + e.getMessage());
             e.printStackTrace();
