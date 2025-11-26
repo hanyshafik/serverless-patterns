@@ -55,7 +55,7 @@ public class KafkaProducerHelper {
      * @param schemaName Schema name
      * @return Configured Kafka producer
      */
-    public static Producer<String, Contact> createProducer(String bootstrapServers, String region, 
+    public static Producer<String, GlucoseReading> createProducer(String bootstrapServers, String region, 
                                                                String registryName, String schemaName) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -90,20 +90,20 @@ public class KafkaProducerHelper {
      * @param producer Kafka producer
      * @param topic Topic name
      * @param key Message key (can be null)
-     * @param contact Contact object (SpecificRecord)
+     * @param glucoseReading GlucoseReading object (SpecificRecord)
      * @throws ExecutionException If sending fails
      * @throws InterruptedException If sending is interrupted
      */
-    public static void sendAvroMessage(Producer<String, Contact> producer, String topic, String key, Contact contact) 
+    public static void sendAvroMessage(Producer<String, GlucoseReading> producer, String topic, String key, GlucoseReading glucoseReading) 
             throws ExecutionException, InterruptedException {
         try {
-            // Print Contact details before sending
+            // Print GlucoseReading details before sending
             System.out.println("Sending AVRO message to topic: '" + topic + "'");
             System.out.println("Message key: " + key);
-            System.out.println("Contact record: " + contact.toString());
+            System.out.println("GlucoseReading record: " + glucoseReading.toString());
             
-            // Create and send the record (Contact is now a SpecificRecord)
-            ProducerRecord<String, Contact> record = new ProducerRecord<>(topic, key, contact);
+            // Create and send the record (GlucoseReading is now a SpecificRecord)
+            ProducerRecord<String, GlucoseReading> record = new ProducerRecord<>(topic, key, glucoseReading);
             producer.send(record).get(); // Using get() to make it synchronous
             System.out.println("Successfully sent AVRO message to topic: " + topic);
         } catch (Exception e) {

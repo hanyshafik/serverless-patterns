@@ -37,21 +37,21 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             //String kafkaTopic = System.getenv("MSK_TOPIC");
 	    String bootstrapServers = System.getenv("bootstrapServers");
             String kafkaTopic = System.getenv("KAFKA_TOPIC");
-            String schemaName = System.getenv("CONTACT_SCHEMA_NAME");
+            String schemaName = System.getenv("SCHEMA_NAME");
             String region = System.getenv("AWS_REGION");
             String registryName = System.getenv("REGISTRY_NAME") != null ? 
                                  System.getenv("REGISTRY_NAME") : "default-registry";
 
-            if (mskClusterArn == null || kafkaTopic == null || schemaName == null) {
-                throw new RuntimeException("Required environment variables not set: MSK_CLUSTER_ARN, KAFKA_TOPIC, CONTACT_SCHEMA_NAME");
+            if (bootstrapServers == null || kafkaTopic == null || schemaName == null) {
+                throw new RuntimeException("Required environment variables not set: BOOTSTRAP_SERVERS, KAFKA_TOPIC, SCHEMA_NAME");
             }
 
-            // Log that we're generating zip codes with different prefixes
-            logger.log("Generating contacts with zip codes starting with 1000 (50% chance) or 2000 (50% chance)");
+            // Log that we're generating glucose readings
+            logger.log("Generating glucose readings");
             
-            // Create a Contact object from the input event or use default values
-            GlucoseReading glucoseReading = createContactFromEvent(event);
-            logger.log("Created contact: " + gson.toJson(contact));
+            // Create a GlucoseReading object from the input event or use default values
+            GlucoseReading glucoseReading = createGlucoseReadingFromEvent(event);
+            logger.log("Created glucoseReading: " + gson.toJson(glucoseReading));
 
             // Get bootstrap brokers
             //String bootstrapBrokers = KafkaProducerHelper.getBootstrapBrokers(mskClusterArn);
@@ -76,11 +76,11 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
                     // Generate a random key for each message
                     String messageKey = UUID.randomUUID().toString();
                     
-                    // Create a new contact for each message to ensure variety
+                    // Create a new GlucoseReading for each message to ensure variety
                     GlucoseReading messageGlucoseReading = createGlucoseReadingFromEvent(event);
                     
-                    // Print the contact details before sending (GlucoseReading is now a SpecificRecord)
-                    logger.log("Sending contact #" + (i+1) + ": " + gson.toJson(messageGlucoseReading));
+                    // Print the glucoseReading details before sending (GlucoseReading is now a SpecificRecord)
+                    logger.log("Sending glucoseReading #" + (i+1) + ": " + gson.toJson(messageGlucoseReading));
                     logger.log("AVRO record #" + (i+1) + ": " + messageGlucoseReading.toString());
                     
                     // Log the zip code prefix for distribution tracking
@@ -120,18 +120,18 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
     }
 
     /**
-     * Create a Contact object from the input event or use default values
+     * Create a GlucoseReading object from the input event or use default values
      * 
      * @param event Input event map
-     * @return Contact object
+     * @return GlucoseReading object
      */
     private GlucoseReading createGlucoseReadingFromEvent(Map<String, Object> event) {
         GlucoseReading glucoseReading = new GlucoseReading();
         
         // Set fields from event if available, otherwise use default values
-        glucoseReading.setFirstname(getStringValue(event, "firstname", "FirstName-" + randomSuffix()));
-        glucoseReading.setLastname(getStringValue(event, "lastname", "LastName-" + randomSuffix()));
-        glucoseReading.setCompany(getStringValue(event, "company", "Company-" + randomSuffix()));
+        glucoseReading.setPatientId(getStringValue(event, "patientId", "PatientId-" + randomSuffix()));
+        glucoseReading.setDeviceId(getStringValue(event, "deviceId", "DeviceId-" + randomSuffix()));
+        glucoseReading.setGlucoseMgDL(getStringValue(event, "glucoseMgDL", "GlucoseMgDL-" + randomDigits(3)));
         
         return glucoseReading;
     }

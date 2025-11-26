@@ -83,31 +83,22 @@ public class AvroSchemaHelper {
     }
 
     /**
-     * Create an AVRO record from a Contact object using the schema from Glue Schema Registry
+     * Create an AVRO record from a GlucoseReading object using the schema from Glue Schema Registry
      * 
      * @param schemaDefinition AVRO schema definition
-     * @param contact Contact object to convert to AVRO
+     * @param glucoseReading GlucoseReading object to convert to AVRO
      * @param schemaId Schema ID to include in the header
      * @return AVRO record as byte array with schema registry header
      */
-    public static byte[] createAvroRecord(String schemaDefinition, Contact contact, UUID schemaId) {
+    public static byte[] createAvroRecord(String schemaDefinition, GlucoseReading glucoseReading, UUID schemaId) {
         try {
             Schema schema = new Schema.Parser().parse(schemaDefinition);
             GenericRecord avroRecord = new GenericData.Record(schema);
             
-            // Populate the record with data from the Contact object
-            avroRecord.put("firstname", contact.getFirstname());
-            avroRecord.put("lastname", contact.getLastname());
-            avroRecord.put("company", contact.getCompany());
-            avroRecord.put("street", contact.getStreet());
-            avroRecord.put("city", contact.getCity());
-            avroRecord.put("county", contact.getCounty());
-            avroRecord.put("state", contact.getState());
-            avroRecord.put("zip", contact.getZip());
-            avroRecord.put("homePhone", contact.getHomePhone());
-            avroRecord.put("cellPhone", contact.getCellPhone());
-            avroRecord.put("email", contact.getEmail());
-            avroRecord.put("website", contact.getWebsite());
+            // Populate the record with data from the GlucoseReading object
+            avroRecord.put("PatientId", glucoseReading.getPatientId());
+            avroRecord.put("DeviceId", glucoseReading.getDeviceId());
+            avroRecord.put("GlucoseMgDL", glucoseReading.getGlucoseMgDL());
             
             // Serialize the record to a byte array
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
