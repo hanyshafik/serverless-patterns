@@ -38,27 +38,6 @@ Resources:
           POWERTOOLS_SERVICE_NAME: kafka_consumer
       Policies:
       - Statement:
-        - Sid: KafkaClusterPermissionsPolicy
-          Effect: Allow
-          Action:
-          - kafka-cluster:Connect
-          - kafka-cluster:DescribeGroup
-          - kafka-cluster:DescribeCluster
-          - kafka-cluster:AlterCluster
-          - kafka-cluster:AlterClusterDynamicConfiguration
-          - kafka-cluster:WriteDataIdempotently
-          - kafka-cluster:AlterGroup
-          - kafka-cluster:DescribeTopic
-          - kafka-cluster:ReadData
-          - kafka-cluster:DescribeClusterDynamicConfiguration
-          
-        - Sid: KafkaPermissionsPolicy
-          Effect: Allow
-          Action:
-          - kafka:DescribeClusterV2
-          - kafka:GetBootstrapBrokers
-          Resource: '*'
-          
         - Sid: EC2PermissionsPolicy
           Effect: Allow
           Action:
@@ -109,23 +88,7 @@ Resources:
           CONTACT_SCHEMA_NAME: !Ref ContactSchemaName
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Policies:
-      - Statement:
-        - Sid: KafkaClusterPermissionsPolicy
-          Effect: Allow
-          Action:
-          - kafka-cluster:Connect
-          - kafka-cluster:DescribeCluster
-          - kafka-cluster:WriteData
-          - kafka-cluster:DescribeTopic
-          Resource: '*'
-          
-        - Sid: KafkaPermissionsPolicy
-          Effect: Allow
-          Action:
-          - kafka:DescribeClusterV2
-          - kafka:GetBootstrapBrokers
-          Resource: '*'
-          
+      - Statement:          
         - Sid: EC2PermissionsPolicy
           Effect: Allow
           Action:
