@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   kafka_event_consumer_and_producer_functions
 
-  Sample SAM Template for MSK consumer and AVRO producer with IAM auth
+  Sample SAM Template for Kafka consumer and AVRO producer with IAM auth
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -11,7 +11,7 @@ Globals:
     Timeout: 15
 
 Resources:
-  # SQS Queue to use as Dead Letter Queue for the MSK event source mapping
+  # SQS Queue to use as Dead Letter Queue for the Kafka event source mapping
   ConsumerDLQ:
     Type: AWS::SQS::Queue
     Properties:
@@ -19,9 +19,9 @@ Resources:
       VisibilityTimeout: 300  # 5 minutes
       Tags:
         - Key: Purpose
-          Value: MSKConsumerDLQ
+          Value: KafkaConsumerDLQ
 
-  LambdaMSKConsumerJavaFunction:
+  LambdaKafkaConsumerJavaFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: kafka_event_consumer_function
@@ -82,10 +82,11 @@ Resources:
       MemorySize: 512
       Environment:
         Variables:
-          BOOTSTRAP_SERVERS: !Ref BootstrapServers
+          BOOTSTRAP_BROKERS: !Ref BootstrapBrokers
+          SASL_JAAS_CONFIG: !Ref SaslJaasConfig
           KAFKA_TOPIC: !Ref KafkaTopic
           REGISTRY_NAME: !Ref GlueSchemaRegistryName
-          CONTACT_SCHEMA_NAME: !Ref ContactSchemaName
+          SCHEMA_NAME: !Ref SchemaName
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Policies:
       - Statement:          
@@ -120,10 +121,14 @@ Resources:
       - VPCAccessPolicy: {}
 
 Parameters:
-  BootstrapServers:
+  BootstrapBrokers:
     Type: String
-    Description: Enter the bootstrap servers
-    Default: CLUSTER_NAME
+    Description: Enter the bootstrap brokers
+    Default: BOOTSTRAP_BROKERS
+  SaslJaasConfig:
+    Type: String
+    Description: Enter the SASL JAAS configuration
+    Default: SASL_JAAS_CONFIG
   KafkaTopic:
     Type: String
     Description: Enter the name of the Kafka Topic
@@ -132,21 +137,21 @@ Parameters:
     Type: String
     Description: Enter the name of the Glue Schema Registry
     Default: GLUE_SCHEMA_REGISTRY_NAME
-  ContactSchemaName:
+  SchemaName:
     Type: String
-    Description: Enter the name of the Contact Schema
+    Description: Enter the name of the Schema
     Default: AVRO_SCHEMA
 
 Outputs:
-  MSKConsumerLambdaFunction:
+  KafkaConsumerLambdaFunction:
     Description: "Topic Consumer Lambda Function ARN"
     Value: !GetAtt LambdaKafkaConsumerJavaFunction.Arn
   KafkaProducerLambdaFunction:
     Description: "AVRO Producer Lambda Function ARN"
     Value: !GetAtt LambdaKafkaProducerJavaFunction.Arn
   ConsumerDLQUrl:
-    Description: "URL of the Dead Letter Queue for the MSK Consumer"
+    Description: "URL of the Dead Letter Queue for the Kafka Consumer"
     Value: !Ref ConsumerDLQ
   ConsumerDLQArn:
-    Description: "ARN of the Dead Letter Queue for the MSK Consumer"
+    Description: "ARN of the Dead Letter Queue for the Kafka Consumer"
     Value: !GetAtt ConsumerDLQ.Arn

@@ -36,12 +36,14 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             // Get environment variables
             //String mskClusterArn = System.getenv("MSK_CLUSTER_ARN");
             //String kafkaTopic = System.getenv("MSK_TOPIC");
-	        String bootstrapBrokers = System.getenv("BOOTSTRAP_BRssOKERS");
+	        String bootstrapBrokers = System.getenv("BOOTSTRAP_BROKERS");
             String kafkaTopic = System.getenv("KAFKA_TOPIC");
             String schemaName = System.getenv("SCHEMA_NAME");
             String region = System.getenv("AWS_REGION");
             String registryName = System.getenv("REGISTRY_NAME") != null ? 
                                  System.getenv("REGISTRY_NAME") : "default-registry";
+            String saslJaasConfig = System.getenv("SASL_JAAS_CONFIG");
+
 
             if (bootstrapBrokers == null || kafkaTopic == null || schemaName == null) {
                 throw new RuntimeException("Required environment variables not set: BOOTSTRAP_BROKERS, KAFKA_TOPIC, SCHEMA_NAME");
@@ -61,7 +63,7 @@ public class AvroProducerHandler implements RequestHandler<Map<String, Object>, 
             
             // Create Kafka producer with AWS Glue Schema Registry serializer
             try (Producer<String, GlucoseReading> producer = KafkaProducerHelper.createProducer(
-                    bootstrapBrokers, region, registryName, schemaName)) {
+                    bootstrapBrokers, region, registryName, schemaName, saslJaasConfig)) {
                 
                 // Log producer configuration
                 logger.log("Created Kafka producer with AWS Glue Schema Registry serializer");

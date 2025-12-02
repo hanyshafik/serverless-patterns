@@ -56,17 +56,17 @@ public class KafkaProducerHelper {
      * @return Configured Kafka producer
      */
     public static Producer<String, GlucoseReading> createProducer(String bootstrapServers, String region, 
-                                                               String registryName, String schemaName) {
+                                                               String registryName, String schemaName, String saslJaasConfig ) {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AWSKafkaAvroSerializer.class.getName());
         
-        // Configure IAM authentication
+        // Configure SASL_SSL/PLAIN authentication
         props.put("security.protocol", "SASL_SSL");
-        props.put("sasl.mechanism", "AWS_MSK_IAM");
-        props.put("sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
-        props.put("sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
+        props.put("sasl.mechanism", "PLAIN");
+        props.put("sasl.jaas.config", saslJaasConfig);
+        //props.put("sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
         
         // Configure AWS Glue Schema Registry
         props.put(AWSSchemaRegistryConstants.AWS_REGION, region);
